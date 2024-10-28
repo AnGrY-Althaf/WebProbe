@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register - Vulnerability Scanner</title>
+    <title>Register - WebProbe Scanner</title>
     <style>
         :root {
             --bg-color: #1c2331;
@@ -181,17 +181,17 @@
         <form action="{{ url_for('register') }}" method="POST">
             <div class="form-group">
                 <label for="username">Username</label>
-                <i class="material-icons">person</i>
+                <i class="material-icons">👤</i>
                 <input type="text" id="username" name="username" placeholder="Choose a username" required>
             </div>
             <div class="form-group">
                 <label for="email">Email Address</label>
-                <i class="material-icons">email</i>
+                <i class="material-icons">📧</i>
                 <input type="email" id="email" name="email" placeholder="Enter your email" required>
             </div>
             <div class="form-group">
                 <label for="password">Password</label>
-                <i class="material-icons">lock</i>
+                <i class="material-icons">🔐</i>
                 <input type="password" id="password" name="password" placeholder="Create a password" required>
             </div>
             <button type="submit">Create Account</button>
