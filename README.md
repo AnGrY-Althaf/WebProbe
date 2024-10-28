@@ -1,7 +1,7 @@
 # WebProbe
 
 <div align="center">
-  <img src="/api/placeholder/150/150" alt="WebProbe Logo"/>
+  <img src="assets/webprobe-logo-enhanced.svg" alt="WebProbe Logo" width="200" height="200"/>
   
   ![Python](https://img.shields.io/badge/python-v3.8+-blue.svg)
   ![Flask](https://img.shields.io/badge/flask-v3.0.0-lightgrey.svg)
