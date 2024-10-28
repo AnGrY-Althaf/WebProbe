@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Security Scanner</title>
+    <style>
+        :root {
+            --bg-color: #1c2331;
+            --header-bg: #2a3441;
+            --text-color: #ecf0f1;
+            --highlight-color: #3498db;
+            --secondary-color: #2c3e50;
+            --success-color: #2ecc71;
+            --warning-color: #f39c12;
+            --danger-color: #e74c3c;
+            --info-color: #3498db;
+            --card-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background: linear-gradient(135deg, #1c2331 0%, #2c3e50 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header {
+            background: var(--header-bg);
+            padding: 1.5rem 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            font-weight: 400;
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: rgba(52, 152, 219, 0.1);
+            border: 1px solid var(--highlight-color);
+            color: var(--highlight-color);
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover {
+            background: var(--highlight-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .scan-form {
+            background: var(--header-bg);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 2rem;
+        }
+
+        .scan-info {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: rgba(52, 152, 219, 0.1);
+            border-radius: 8px;
+            border-left: 4px solid var(--highlight-color);
+        }
+
+        .scan-info h3 {
+            color: var(--highlight-color);
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .scan-info p {
+            color: rgba(236, 240, 241, 0.8);
+            font-size: 0.9rem;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-color);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: var(--highlight-color);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        }
+
+        .scan-button {
+            background: linear-gradient(to right, #3498db, #2980b9);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .scan-button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+        }
+
+        .scanning-animation {
+            display: none;
+            margin: 2rem 0;
+            background: var(--secondary-color);
+            border-radius: 8px;
+            padding: 2rem;
+        }
+
+        .scanning-animation.active {
+            display: block;
+        }
+
+        .progress-container {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 1.5rem;
+        }
+
+        .progress-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .progress-bar {
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        .progress {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(to right, #3498db, #2ecc71);
+            transition: width 0.5s ease;
+        }
+
+        .spinner {
+            width: 24px;
+            height: 24px;
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            border-left-color: var(--highlight-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 1rem;
+        }
+
+        .scan-step {
+            color: rgba(236, 240, 241, 0.8);
+            font-size: 0.9rem;
+        }
+
+        .results-container {
+            display: none;
+            background: var(--header-bg);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-top: 2rem;
+            box-shadow: var(--card-shadow);
+        }
+
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .results-title {
+            font-size: 1.5rem;
+            font-weight: 400;
+            color: var(--highlight-color);
+        }
+
+        .vulnerability-group {
+            margin-bottom: 2rem;
+        }
+
+        .vulnerability-group h3 {
+            color: var(--highlight-color);
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .vulnerability-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .vulnerability-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .vulnerability-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .vulnerability-severity {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .export-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--success-color);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .export-button:hover {
+            background: #27ae60;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .input-group {
+                flex-direction: column;
+            }
+
+            .scan-button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Web Security Scanner</h1>
+            <a href="{{ url_for('dashboard') }}" class="back-button">← Back to Dashboard</a>
+        </div>
+
+        <div class="scan-form">
+            <div class="scan-info">
+                <h3>Start New Security Scan</h3>
+                <p>Enter the URL of the web application you want to scan. Make sure you have permission to test the target.</p>
+            </div>
+
+            <form id="scanForm">
+                <div class="input-group">
+                    <input type="text" name="url" id="urlInput" placeholder="Enter the URL to scan (e.g., http://example.com)" required>
+                    <button type="submit" id="scanButton" class="scan-button">🔍 Start Security Scan</button>
+                </div>
+            </form>
+
+            <div class="scanning-animation" id="scanningAnimation">
+                <div class="progress-container">
+                    <div class="progress-header">
+                        <div class="spinner"></div>
+                        <div class="scan-step" id="currentStep">Initializing scan...</div>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress" id="progressBar"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="results-container" id="resultsContainer"></div>
+    </div>
+
+    <script>
+        document.getElementById('scanForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const url = document.getElementById('urlInput').value;
+            const scanButton = document.getElementById('scanButton');
+            const scanningAnimation = document.getElementById('scanningAnimation');
+            const progressBar = document.getElementById('progressBar');
+            const currentStep = document.getElementById('currentStep');
+            const resultsContainer = document.getElementById('resultsContainer');
+            
+            // Reset and show scanning animation
+            scanButton.disabled = true;
+            scanningAnimation.classList.add('active');
+            resultsContainer.style.display = 'none';
+            progressBar.style.width = '0%';
+            
+            const scanSteps = [
+                { step: 'Initializing scan...', time: 1000 },
+                { step: 'Checking security headers...', time: 2000 },
+                { step: 'Analyzing forms and input fields...', time: 2000 },
+                { step: 'Testing for SQL injection vulnerabilities...', time: 2500 },
+                { step: 'Testing for XSS vulnerabilities...', time: 2500 },
+                { step: 'Finalizing results...', time: 1000 }
+            ];
+            
+            try {
+                // Progress animation
+                let currentStepIndex = 0;
+                const progressInterval = setInterval(() => {
+                    if (currentStepIndex < scanSteps.length) {
+                        const progress = ((currentStepIndex + 1) / scanSteps.length) * 100;
+                        progressBar.style.width = `${progress}%`;
+                        currentStep.textContent = scanSteps[currentStepIndex].step;
+                        currentStepIndex++;
+                    }
+                }, 2000);
+
+                // Actual scan request
+                const response = await fetch('/scan', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ url })
+                });
+
+                clearInterval(progressInterval);
+                progressBar.style.width = '100%';
+                
+                const data = await response.json();
+                
+                // Process and display results
+                resultsContainer.style.display = 'block';
+                
+                if (data.vulnerabilities && data.vulnerabilities.length > 0) {
+                    // Group vulnerabilities by type
+                    const groupedVulns = {
+                        'Security Headers': [],
+                        'XSS': [],
+                        'SQL Injection': [],
+                        'Other': []
+                    };
+
+                    data.vulnerabilities.forEach(vuln => {
+                        if (vuln.includes('Missing') && vuln.includes('header')) {
+                            groupedVulns['Security Headers'].push({
+                                title: vuln,
+                                severity: 'medium'
+                            });
+                        } else if (vuln.includes('XSS')) {
+                            groupedVulns['XSS'].push({
+                                title: 'Cross-Site Scripting (XSS) Vulnerability',
+                                details: vuln,
+                                severity: 'high'
+                            });
+                        } else if (vuln.includes('SQL')) {
+                            groupedVulns['SQL Injection'].push({
+                                title: 'SQL Injection Vulnerability',
+                                details: vuln,
+                                severity: 'high'
+                            });
+                        } else {
+                            groupedVulns['Other'].push({
+                                title: 'Security Issue',
+                                details: vuln,
+                                severity: 'medium'
+                            });
+                        }
+                    });
+
+                    // Generate HTML for results
+                    let resultsHTML = '<h2>Scan Results</h2>';
+
+                    for (const [category, vulns] of Object.entries(groupedVulns)) {
+                        if (vulns.length > 0) {
+                            resultsHTML += `
+                                <div class="vulnerability-group">
+                                    <h3>${category}</h3>
+                                    ${vulns.map(vuln => `
+                                        <div class="vulnerability-card">
+                                            <div class="vulnerability-header">
+                                                <span class="vulnerability-title">${vuln.title}</span>
+                                                <span class="vulnerability-severity severity-${vuln.severity}">${vuln.severity.toUpperCase()}</span>
+                                            </div>
+                                            <div class="vulnerability-details">
+                                                ${vuln.details ? `
+                                                    <div class="detail-item">
+                                                        <span class="detail-label">Details:</span>
+                                                        <div class="code-block">${vuln.details}</div>
+                                                    </div>
+                                                ` : ''}
+                                            </div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            `;
+                        }
+                    }
+
+                    // Add export button
+                    resultsHTML += `
+                        <button onclick="window.location.href='/scan/${data.scan_id}/report'" class="export-button">
+                            Export Report as PDF
+                        </button>
+                    `;
+
+                    resultsContainer.innerHTML = resultsHTML;
+                } else {
+                    resultsContainer.innerHTML = `
+                        <h2>Scan Results</h2>
+                        <div class="no-vulnerabilities">
+                            No vulnerabilities were found! The target appears to be secure.
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                resultsContainer.style.display = 'block';
+                resultsContainer.innerHTML = `
+                    <div class="vulnerability-card">
+                        <div class="vulnerability-header">
+                            <span class="vulnerability-title">Error During Scan</span>
+                            <span class="vulnerability-severity severity-high">ERROR</span>
+                        </div>
+                        <div class="vulnerability-details">
+                            <div class="detail-item">
+                                <span class="detail-label">Error message:</span>
+                                <div class="code-block">${error.message}</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } finally {
+                scanButton.disabled = false;
+                scanningAnimation.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>

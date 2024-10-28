@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        @page {
+            size: A4;
+            margin: 2cm;
+        }
+        
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            background-color: #ffffff;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            text-align: left;
+            margin-bottom: 40px;
+            padding: 30px 0;
+            border-bottom: 2px solid #3498db;
+        }
+
+        .header h1 {
+            color: #2c3e50;
+            font-size: 28px;
+            margin: 0;
+            padding: 0;
+            font-weight: 300;
+        }
+
+        .meta-info {
+            font-size: 14px;
+            color: #7f8c8d;
+            margin-top: 10px;
+        }
+
+        .target-info {
+            background: #f8fafb;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 4px solid #3498db;
+        }
+
+        .summary-grid {
+            display: table;
+            width: 100%;
+            margin: 30px 0;
+            border-collapse: separate;
+            border-spacing: 15px;
+        }
+
+        .summary-card {
+            display: table-cell;
+            width: 25%;
+            padding: 20px;
+            text-align: center;
+            background: #ffffff;
+            border: 1px solid #e0e0e0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .summary-card h3 {
+            margin: 0 0 10px 0;
+            font-size: 16px;
+            color: #7f8c8d;
+            font-weight: 400;
+        }
+
+        .summary-card div {
+            font-size: 28px;
+            font-weight: 300;
+        }
+
+        .critical { border-top: 3px solid #e74c3c; }
+        .high { border-top: 3px solid #f39c12; }
+        .medium { border-top: 3px solid #f1c40f; }
+        .low { border-top: 3px solid #2ecc71; }
+
+        .security-score {
+            text-align: center;
+            margin: 40px 0;
+            padding: 30px;
+            background: #f8fafb;
+        }
+
+        .security-score h2 {
+            color: #2c3e50;
+            margin: 0 0 20px 0;
+            font-weight: 300;
+        }
+
+        .security-score .score {
+            font-size: 48px;
+            font-weight: 300;
+            color: #3498db;
+        }
+
+        .vulnerability-list {
+            margin-top: 40px;
+        }
+
+        .vulnerability-list h2 {
+            color: #2c3e50;
+            font-weight: 300;
+            margin-bottom: 30px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .vulnerability-item {
+            margin-bottom: 25px;
+            background: #ffffff;
+            border: 1px solid #e0e0e0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .vuln-header {
+            padding: 15px 20px;
+            background: #f8fafb;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .vuln-content {
+            padding: 20px;
+        }
+
+        .severity-tag {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 3px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .severity-critical { background: #ffeaea; color: #e74c3c; }
+        .severity-high { background: #fff5e6; color: #f39c12; }
+        .severity-medium { background: #fffbe6; color: #f1c40f; }
+        .severity-low { background: #eafaf1; color: #2ecc71; }
+
+        .remediation {
+            background: #f8fafb;
+            padding: 20px;
+            margin: 15px 0;
+            border-left: 4px solid #3498db;
+        }
+
+        .references {
+            font-size: 13px;
+            color: #7f8c8d;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .references a {
+            color: #3498db;
+            text-decoration: none;
+        }
+
+        .references a:hover {
+            text-decoration: underline;
+        }
+
+        .footer {
+            margin-top: 60px;
+            padding-top: 20px;
+            border-top: 1px solid #e0e0e0;
+            font-size: 12px;
+            color: #7f8c8d;
+            text-align: center;
+        }
+
+        strong {
+            color: #2c3e50;
+            font-weight: 500;
+        }
+
+        p {
+            margin: 10px 0;
+            color: #34495e;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Security Vulnerability Assessment Report</h1>
+        <div class="meta-info">
+            Generated: {{ current_datetime }} | Scanner Version: 1.0.0
+        </div>
+    </div>
+
+    <div class="target-info">
+        <strong>Target URL:</strong> {{ url }}<br>
+        <strong>Scan Duration:</strong> {{ scan_duration }}
+    </div>
+
+    <div class="summary-grid">
+        <div class="summary-card critical">
+            <h3>Critical</h3>
+            <div>{{ critical_count }}</div>
+        </div>
+        <div class="summary-card high">
+            <h3>High</h3>
+            <div>{{ high_count }}</div>
+        </div>
+        <div class="summary-card medium">
+            <h3>Medium</h3>
+            <div>{{ medium_count }}</div>
+        </div>
+        <div class="summary-card low">
+            <h3>Low</h3>
+            <div>{{ low_count }}</div>
+        </div>
+    </div>
+
+    <div class="security-score">
+        <h2>Security Score</h2>
+        <div class="score">{{ security_score }}%</div>
+    </div>
+
+    <div class="vulnerability-list">
+        <h2>Detected Vulnerabilities</h2>
+        {% for vuln in vulnerabilities %}
+        <div class="vulnerability-item">
+            <div class="vuln-header">
+                <strong>{{ vuln.name }}</strong>
+                <span class="severity-tag severity-{{ vuln.severity.lower() }}">{{ vuln.severity }}</span>
+            </div>
+            <div class="vuln-content">
+                <p><strong>Description:</strong> {{ vuln.description }}</p>
+                <p><strong>Impact:</strong> {{ vuln.impact }}</p>
+                <p><strong>Affected Component:</strong> {{ vuln.affected_component }}</p>
+                
+                <div class="remediation">
+                    <strong>Remediation Steps:</strong><br>
+                    {{ vuln.remediation }}
+                </div>
+
+                {% if vuln.references %}
+                <div class="references">
+                    <strong>References:</strong><br>
+                    {% for ref in vuln.references %}
+                    - <a href="{{ ref.url }}">{{ ref.title }}</a><br>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="footer">
+        Generated by Vulnerability Scanner v1.0.0<br>
+        This report is confidential and intended for authorized personnel only.
+    </div>
+</body>
+</html>

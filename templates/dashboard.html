@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSecScanner Dashboard</title>
+    <style>
+        :root {
+            --bg-color: #1c2331;
+            --header-bg: #2a3441;
+            --text-color: #ecf0f1;
+            --highlight-color: #3498db;
+            --secondary-color: #2c3e50;
+            --danger-color: #e74c3c;
+            --success-color: #2ecc71;
+            --warning-color: #f39c12;
+            --card-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background: linear-gradient(135deg, #1c2331 0%, #2c3e50 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: var(--header-bg);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: var(--card-shadow);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-avatar {
+            width: 45px;
+            height: 45px;
+            background: var(--highlight-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: 500;
+        }
+
+        .welcome-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .welcome-text h2 {
+            font-size: 24px;
+            font-weight: 400;
+            color: var(--text-color);
+            margin: 0;
+        }
+
+        .welcome-text span {
+            font-size: 14px;
+            color: rgba(236, 240, 241, 0.7);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: var(--highlight-color);
+            color: var(--text-color);
+        }
+
+        .btn-primary:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        .btn-danger {
+            background: rgba(231, 76, 60, 0.1);
+            color: var(--danger-color);
+            border: 1px solid var(--danger-color);
+        }
+
+        .btn-danger:hover {
+            background: var(--danger-color);
+            color: var(--text-color);
+            transform: translateY(-2px);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: var(--header-bg);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .stat-title {
+            font-size: 14px;
+            color: rgba(236, 240, 241, 0.7);
+            margin-bottom: 10px;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 300;
+            color: var(--highlight-color);
+        }
+
+        .content-card {
+            background: var(--header-bg);
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            overflow: hidden;
+        }
+
+        .card-header {
+            padding: 20px;
+            border-bottom: 1px solid rgba(236, 240, 241, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-header h3 {
+            font-size: 18px;
+            font-weight: 400;
+            color: var(--text-color);
+            border: none;
+            padding: 0;
+        }
+
+        .scan-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+
+        .scan-table th {
+            background: rgba(52, 152, 219, 0.1);
+            padding: 15px 20px;
+            font-weight: 500;
+            text-align: left;
+            color: rgba(236, 240, 241, 0.9);
+        }
+
+        .scan-table td {
+            padding: 15px 20px;
+            border-bottom: 1px solid rgba(236, 240, 241, 0.05);
+        }
+
+        .scan-table tr:hover {
+            background: rgba(52, 152, 219, 0.05);
+        }
+
+        .url-cell {
+            max-width: 400px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .status-critical {
+            background: rgba(231, 76, 60, 0.1);
+            color: var(--danger-color);
+        }
+
+        .status-high {
+            background: rgba(243, 156, 18, 0.1);
+            color: var(--warning-color);
+        }
+
+        .status-secure {
+            background: rgba(46, 204, 113, 0.1);
+            color: var(--success-color);
+        }
+
+        .date-cell {
+            color: rgba(236, 240, 241, 0.6);
+            font-size: 14px;
+        }
+
+        .action-cell {
+            text-align: right;
+        }
+
+        .action-btn {
+            color: var(--highlight-color);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .action-btn:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+
+            .header-actions {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .scan-table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-content">
+                <div class="user-avatar">
+                    {{ username[0] | upper }}
+                </div>
+                <div class="welcome-text">
+                    <h2>Welcome back, {{ username }}</h2>
+                    <span>Track and manage your security scans</span>
+                </div>
+            </div>
+            <div class="header-actions">
+                <a href="{{ url_for('scan') }}" class="btn btn-primary">
+                    🔍 New Scan
+                </a>
+                <a href="{{ url_for('logout') }}" class="btn btn-danger">
+                    ↪️ Logout
+                </a>
+            </div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-title">Total Scans</div>
+                <div class="stat-value">{{ scans|length }}</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-title">Recent Activity</div>
+                <div class="stat-value">{{ scans[:5]|length }}</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-title">Security Score</div>
+                <div class="stat-value">85%</div>
+            </div>
+        </div>
+
+        <div class="content-card">
+            <div class="card-header">
+                <h3>Recent Scans</h3>
+            </div>
+            <table class="scan-table">
+                <thead>
+                    <tr>
+                        <th>Target URL</th>
+                        <th>Status</th>
+                        <th>Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for scan in scans %}
+                    <tr>
+                        <td class="url-cell">{{ scan.url }}</td>
+                        <td>
+                            {% if "Critical" in scan.result %}
+                            <span class="status-badge status-critical">Critical</span>
+                            {% elif "High" in scan.result %}
+                            <span class="status-badge status-high">High Risk</span>
+                            {% else %}
+                            <span class="status-badge status-secure">Secure</span>
+                            {% endif %}
+                        </td>
+                        <td class="date-cell">{{ scan.id|string|truncate(10, True, '') }}</td>
+                        <td class="action-cell">
+                            <a href="{{ url_for('generate_report', scan_id=scan.id) }}" class="action-btn">
+                                Download Report
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

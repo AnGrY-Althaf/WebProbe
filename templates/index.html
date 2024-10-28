@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Security Scanner - Home</title>
+    <style>
+        :root {
+            --bg-color: #1c2331;
+            --header-bg: #2a3441;
+            --text-color: #ecf0f1;
+            --highlight-color: #3498db;
+            --secondary-color: #2c3e50;
+            --success-color: #2ecc71;
+            --warning-color: #f39c12;
+            --danger-color: #e74c3c;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background: linear-gradient(135deg, #1c2331 0%, #2c3e50 100%);
+            min-height: 100vh;
+        }
+
+        nav {
+            background: var(--header-bg);
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            font-size: 24px;
+        }
+
+        .logo-text {
+            font-size: 20px;
+            font-weight: 500;
+            color: var(--highlight-color);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            background: var(--highlight-color);
+        }
+
+        .hero {
+            text-align: center;
+            padding: 80px 20px;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            font-weight: 300;
+            margin-bottom: 20px;
+            color: var(--highlight-color);
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto 30px;
+            color: rgba(236, 240, 241, 0.8);
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 40px;
+        }
+
+        .cta-button {
+            padding: 12px 30px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .primary-button {
+            background: var(--highlight-color);
+            color: white;
+        }
+
+        .primary-button:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        .secondary-button {
+            background: transparent;
+            color: var(--highlight-color);
+            border: 2px solid var(--highlight-color);
+        }
+
+        .secondary-button:hover {
+            background: rgba(52, 152, 219, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .features {
+            padding: 60px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .features h2 {
+            text-align: center;
+            font-size: 2rem;
+            font-weight: 300;
+            margin-bottom: 40px;
+            color: var(--highlight-color);
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            padding: 0 20px;
+        }
+
+        .feature-card {
+            background: var(--secondary-color);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 40px;
+            margin-bottom: 20px;
+            color: var(--highlight-color);
+        }
+
+        .feature-title {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: var(--highlight-color);
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            background: var(--header-bg);
+            margin-top: 60px;
+        }
+
+        .disclaimer {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background: rgba(231, 76, 60, 0.1);
+            border-left: 4px solid var(--danger-color);
+            border-radius: 4px;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                padding: 0 20px;
+            }
+
+            .cta-button {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo">
+            <span class="logo-icon">🛡️</span>
+            <span class="logo-text">WebSecScanner</span>
+        </div>
+        <div class="nav-links">
+            <a href="{{ url_for('login') }}">Login</a>
+            <a href="{{ url_for('register') }}">Register</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <h1>Secure Your Web Applications</h1>
+        <p>Comprehensive security scanning tool to identify vulnerabilities in your web applications. 
+           Detect SQL injections, XSS vulnerabilities, and security misconfigurations before attackers do.</p>
+        <div class="cta-buttons">
+            <a href="{{ url_for('register') }}" class="cta-button primary-button">Get Started</a>
+            <a href="{{ url_for('login') }}" class="cta-button secondary-button">Login</a>
+        </div>
+    </section>
+
+    <section class="features">
+        <h2>Key Features</h2>
+        <div class="feature-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🔍</div>
+                <h3 class="feature-title">SQL Injection Detection</h3>
+                <p>Automatically detect and report potential SQL injection vulnerabilities in your web applications.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h3 class="feature-title">XSS Vulnerability Scanning</h3>
+                <p>Identify Cross-Site Scripting vulnerabilities that could compromise your users' security.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔒</div>
+                <h3 class="feature-title">Security Headers Check</h3>
+                <p>Verify the presence and configuration of essential security headers in your web applications.</p>
+            </div>
+        </div>
+    </section>
+
+    <div class="disclaimer">
+        <h3>Important Notice</h3>
+        <p>This security scanner should only be used on web applications that you own or have explicit permission to test. 
+           Unauthorized security testing may be illegal.</p>
+    </div>
+
+    <footer>
+        <p>© 2024 WebSecScanner. All rights reserved.</p>
+    </footer>
+</body>
+</html>
