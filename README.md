@@ -101,21 +101,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 📞 Contact
 
 - Project Link: [https://github.com/AnGrY-Althaf/WebProbe](https://github.com/AnGrY-Althaf/WebProbe)
-- Linkedin  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-    <!-- Background -->
-    <rect width="24" height="24" rx="3" fill="#0A66C2"/>
-    
-    <!-- Letters "in" -->
-    <g fill="#FFFFFF">
-        <!-- "i" -->
-        <rect x="4" y="9" width="2.5" height="10" rx="0.5"/>
-        <circle cx="5.25" cy="5.5" r="1.5"/>
-        
-        <!-- "n" -->
-        <rect x="9" y="9" width="2.5" height="10" rx="0.5"/>
-        <path d="M9 14C9 11.5 10.5 9 13.5 9C16.5 9 18 11.5 18 14L18 19L15.5 19L15.5 14C15.5 12.5 14.5 11.5 13.5 11.5C12.5 11.5 11.5 12.5 11.5 14L11.5 19L9 19L9 14Z"/>
-    </g>
-</svg>  : https://www.linkedin.com/in/althaf-shajahan-978b67240/
+- Linkedin    : https://www.linkedin.com/in/althaf-shajahan-978b67240/
 
 ## 🙏 Acknowledgments
 
