@@ -1,0 +1,126 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500">
+    <!-- Gradient Definitions -->
+    <defs>
+        <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#1E1E2F;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#2C2C44;stop-opacity:1" />
+        </linearGradient>
+        <linearGradient id="shieldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#2C3E50;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#3B4F63;stop-opacity:1" />
+        </linearGradient>
+        <linearGradient id="glowGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#00F2FE;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#4FACFE;stop-opacity:1" />
+        </linearGradient>
+        
+        <!-- Glow Filter -->
+        <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="blur"/>
+            <feColorMatrix in="blur" type="matrix" values="0 0 0 0 0   0 0 0 0 0.7   0 0 0 0 1  0 0 0 0.6 0"/>
+            <feMerge>
+                <feMergeNode/>
+                <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+        </filter>
+    </defs>
+
+    <!-- Background Circle with Modern Gradient -->
+    <circle cx="250" cy="250" r="240" fill="url(#bgGradient)"/>
+    
+    <!-- Decorative Outer Ring -->
+    <circle cx="250" cy="250" r="235" 
+            stroke="url(#glowGradient)" 
+            stroke-width="2" 
+            fill="none" 
+            opacity="0.5">
+        <animate attributeName="stroke-dasharray" 
+                 from="0,1500" 
+                 to="1500,0" 
+                 dur="15s" 
+                 repeatCount="indefinite"/>
+    </circle>
+
+    <!-- Shield Base with Gradient -->
+    <path d="M250 80 
+             L400 140 
+             L400 280 
+             C400 380 250 440 250 440 
+             C250 440 100 380 100 280 
+             L100 140 Z" 
+          fill="url(#shieldGradient)"
+          stroke="url(#glowGradient)"
+          stroke-width="3"
+          filter="url(#glow)"/>
+
+    <!-- Radar Scan Animation -->
+    <g transform="translate(250, 250)">
+        <circle r="100" fill="none" stroke="#4FACFE" stroke-width="2" opacity="0.2"/>
+        <circle r="70" fill="none" stroke="#4FACFE" stroke-width="2" opacity="0.3"/>
+        <circle r="40" fill="none" stroke="#4FACFE" stroke-width="2" opacity="0.4"/>
+        
+        <!-- Radar Sweep -->
+        <path d="M0 0 L100 0 A100 100 0 0 1 70.7 70.7" 
+              fill="none" 
+              stroke="url(#glowGradient)" 
+              stroke-width="3">
+            <animateTransform attributeName="transform"
+                            type="rotate"
+                            from="0 0 0"
+                            to="360 0 0"
+                            dur="3s"
+                            repeatCount="indefinite"/>
+        </path>
+    </g>
+
+    <!-- Scanning Lines with Glow -->
+    <g stroke="url(#glowGradient)" stroke-width="2" fill="none">
+        <line x1="150" y1="200" x2="350" y2="200" opacity="0.3">
+            <animate attributeName="y1" values="200;300;200" dur="3s" repeatCount="indefinite"/>
+            <animate attributeName="y2" values="200;300;200" dur="3s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" values="0.3;0.8;0.3" dur="3s" repeatCount="indefinite"/>
+        </line>
+        <line x1="150" y1="250" x2="350" y2="250" opacity="0.5">
+            <animate attributeName="y1" values="250;350;250" dur="3s" repeatCount="indefinite"/>
+            <animate attributeName="y2" values="250;350;250" dur="3s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" values="0.5;1;0.5" dur="3s" repeatCount="indefinite"/>
+        </line>
+    </g>
+
+    <!-- Center Probe Icon -->
+    <circle cx="250" cy="250" r="15" fill="#00F2FE" filter="url(#glow)">
+        <animate attributeName="r" values="15;20;15" dur="2s" repeatCount="indefinite"/>
+    </circle>
+
+    <!-- Target Crosshair -->
+    <g stroke="#4FACFE" stroke-width="2">
+        <line x1="235" y1="250" x2="265" y2="250"/>
+        <line x1="250" y1="235" x2="250" y2="265"/>
+    </g>
+
+    <!-- Logo Text -->
+    <text x="250" y="180" 
+          font-family="Arial, sans-serif" 
+          font-size="60" 
+          fill="#FFFFFF" 
+          text-anchor="middle" 
+          font-weight="900"
+          filter="url(#glow)">WP</text>
+
+    <!-- WebProbe Text -->
+    <text x="250" y="350" 
+          font-family="Arial, sans-serif" 
+          font-size="32" 
+          fill="#4FACFE" 
+          text-anchor="middle" 
+          font-weight="bold"
+          filter="url(#glow)">WEBPROBE</text>
+
+    <!-- Subtitle -->
+    <text x="250" y="380" 
+          font-family="Arial, sans-serif" 
+          font-size="14" 
+          fill="#4FACFE" 
+          text-anchor="middle"
+          opacity="0.8">SECURITY SCANNER</text>
+</svg>
