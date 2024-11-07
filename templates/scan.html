@@ -271,6 +271,61 @@
             font-weight: 500;
             transition: all 0.3s ease;
         }
+        /* New severity-specific styles */
+        .severity-low {
+            background-color: rgba(46, 204, 113, 0.15);
+            color: #2ecc71;
+            border: 1px solid rgba(46, 204, 113, 0.3);
+        }
+
+        .severity-medium {
+            background-color: rgba(243, 156, 18, 0.15);
+            color: #f39c12;
+            border: 1px solid rgba(243, 156, 18, 0.3);
+        }
+
+        .severity-high {
+            background-color: rgba(231, 76, 60, 0.15);
+            color: #e74c3c;
+            border: 1px solid rgba(231, 76, 60, 0.3);
+        }
+
+        .severity-low:hover {
+            background-color: rgba(46, 204, 113, 0.25);
+        }
+
+        .severity-medium:hover {
+            background-color: rgba(243, 156, 18, 0.25);
+        }
+
+        .severity-high:hover {
+            background-color: rgba(231, 76, 60, 0.25);
+        }
+
+        .export-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--success-color);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .export-button:hover {
+            background: #27ae60;
+            transform: translateY(-2px);
+        }
+
+        .export-button:hover {
+            background: #27ae60;
+            transform: translateY(-2px);
+        }
 
         .export-button:hover {
             background: #27ae60;
