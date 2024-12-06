@@ -80,16 +80,6 @@ The scanner can be configured by modifying the following files:
 - `payloads.json`: Custom payload configurations
 - `config.py`: Application configuration settings
 
-## 📝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
 ## ⚠️ Disclaimer
 
 This tool is for educational and security testing purposes only. Always ensure you have permission to scan the target web application. The authors are not responsible for any misuse or damage caused by this program.
